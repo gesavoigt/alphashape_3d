@@ -45,7 +45,7 @@ def _testalpha(points: Union[List[Tuple[float]], np.ndarray], alpha: float):
                 points = MultiPoint(list(points)).geoms
         return all([polygon.intersects(point) for point in points])
     elif isinstance(polygon, trimesh.base.Trimesh):
-        return len(polygon.faces) > 0 and all(
+        return len(polygon.faces) > 0 and polygon.is_watertight and all(
             trimesh.proximity.signed_distance(polygon, list(points)) >= 0)
     else:
         return False
